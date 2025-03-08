@@ -1,5 +1,5 @@
 //
-//  ButtonShadow.swift
+//  ButtonShadowProperties.swift
 //  Seagullocation
 //
 //  Created by Kadir Emre Yıldırım on 8.03.2025.
