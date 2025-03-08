@@ -29,14 +29,7 @@ final class SLMapViewController: UIViewController {
     private func configureStartStopButton() {
         startStopButton.titleLabel?.text = String(localized: "MapView.StartButton.Title")
         startStopButton.layer.cornerRadius = 8
-        addShadowToButton(button: startStopButton)
-    }
-    
-    private func addShadowToButton(button: UIButton) {
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.5
-        button.layer.shadowOffset = CGSize(width: 0, height: 8)
-        button.layer.shadowRadius = 5
+        startStopButton.addShadow(shadowProperties: ButtonShadowProperties())
     }
     
     @IBAction func resetLocationButtonTapped(_ sender: Any) {
