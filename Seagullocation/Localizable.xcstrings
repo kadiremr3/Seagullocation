@@ -18,6 +18,23 @@
         }
       }
     },
+    "MapView.ResetButton.Title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset Location"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Konumu Sıfırla"
+          }
+        }
+      }
+    },
     "MapView.StartButton.Title" : {
       "extractionState" : "manual",
       "localizations" : {
