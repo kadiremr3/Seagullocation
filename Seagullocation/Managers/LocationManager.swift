@@ -8,7 +8,7 @@
 import CoreLocation
 
 protocol LocationManagerDelegate: AnyObject {
-    func didUpdateLocation(_ location: CLLocation)
+    func didUpdateLocation(_ locations: [CLLocation])
     func didFailWithError(_ error: Error)
 }
 
@@ -16,14 +16,17 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     
     private let locationManager = CLLocationManager()
     weak var delegate: LocationManagerDelegate?
+    var lastRecordedLocation: CLLocation?
     
     override init() {
         super.init()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.pausesLocationUpdatesAutomatically = false
     }
 
-    func requestLocation() {
+    func startTracking() {
         let status = locationManager.authorizationStatus
     
         if status == .notDetermined {
@@ -45,8 +48,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        delegate?.didUpdateLocation(location)
+        delegate?.didUpdateLocation(locations)
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

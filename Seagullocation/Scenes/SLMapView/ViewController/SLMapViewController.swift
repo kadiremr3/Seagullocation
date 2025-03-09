@@ -13,7 +13,10 @@ final class SLMapViewController: UIViewController {
     @IBOutlet private(set) weak var mapView: MKMapView!
     @IBOutlet private weak var resetLocationButton: UIButton!
     @IBOutlet private weak var startStopButton: UIButton!
-    private let locationManager: LocationManager!
+    private(set) var locationManager: LocationManager!
+    
+    private var locations: [CLLocationCoordinate2D] = []
+    private var polyline: MKPolyline?
     
     init(locationManager: LocationManager) {
         self.locationManager = locationManager
@@ -33,9 +36,8 @@ final class SLMapViewController: UIViewController {
         
     }
     
-    func setuplocationManager() {
+    private func setuplocationManager() {
         locationManager.delegate = self
-        locationManager.requestLocation()
     }
     
     private func setupMapView() {
@@ -54,11 +56,30 @@ final class SLMapViewController: UIViewController {
         startStopButton.addShadow(shadowProperties: ButtonShadowProperties())
     }
     
-    @IBAction func resetLocationButtonTapped(_ sender: Any) {
+    func addMarker(at coordinate: CLLocationCoordinate2D) {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        mapView.addAnnotation(annotation)
+    }
+
+    func updateTrail(with coordinate: CLLocationCoordinate2D) {
+        locations.append(coordinate)
         
+        if let polyline = polyline {
+            mapView.removeOverlay(polyline)
+        }
+        
+        polyline = MKPolyline(coordinates: locations, count: locations.count)
+        mapView.addOverlay(polyline!)
+    }
+    
+    @IBAction func resetLocationButtonTapped(_ sender: Any) {
+        locations.removeAll()
+        mapView.removeOverlays(mapView.overlays)
+        mapView.removeAnnotations(mapView.annotations)
     }
     
     @IBAction func startStopButtonTapped(_ sender: Any) {
-        
+        locationManager.startTracking()
     }
 }
