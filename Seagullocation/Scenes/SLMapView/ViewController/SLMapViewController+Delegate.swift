@@ -13,23 +13,50 @@ import CoreLocation
 
 extension SLMapViewController: SLMapViewViewModelDelegate {
     func didUpdateMap(with coordinate: CLLocationCoordinate2D) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [ weak self ] in
+            guard let self = self else { return }
             self.addMarker(at: coordinate)
             self.updateTrail(with: coordinate)
+        }
+    }
+    
+    func didResetMap() {
+        DispatchQueue.main.async { [ weak self ] in
+            guard let self = self else { return }
+            self.locations.removeAll()
+            self.mapView.removeOverlays(self.mapView.overlays)
+            self.mapView.removeAnnotations(self.mapView.annotations)
         }
     }
     
     func didFailWithError(_ error: Error) {
         print("Location error: \(error.localizedDescription)") // TODO: Show alert
     }
-    
-    func didUpdateTrackingState(isTracking: Bool) {
-        let title = isTracking ? String(localized: "MapView.StopButton.Title") : String(localized: "MapView.StartButton.Title")
-        startStopButton.setTitle(title, for: .normal)
-    }
 }
 
 extension SLMapViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let annotation = view.annotation else { return }
+        
+        let latitude = annotation.coordinate.latitude
+        let longitude = annotation.coordinate.longitude
+        let locationText = String(localized: "General.Location") + ": " + "\(latitude), \(longitude)"
+        
+        let alertController = UIAlertController(
+            title: String(localized: "MapView.Marker.LocationInfo"),
+            message: locationText, preferredStyle: .actionSheet
+        )
+        let shareAction = UIAlertAction(
+            title: String(localized: "General.Share"),
+            style: .default
+        ) { _ in
+            self.shareLocation(latitude: latitude, longitude: longitude)
+        }
+        let closeAction = UIAlertAction(title: String(localized: "General.Close"), style: .cancel, handler: nil)
+        alertController.addAction(shareAction)
+        alertController.addAction(closeAction)
+        present(alertController, animated: true)
+    }
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
             let renderer = MKPolylineRenderer(polyline: polyline)

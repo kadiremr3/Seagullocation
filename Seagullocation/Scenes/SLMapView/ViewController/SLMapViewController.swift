@@ -15,8 +15,8 @@ final class SLMapViewController: UIViewController {
     @IBOutlet private(set) weak var startStopButton: UIButton!
     
     private(set) var viewModel: SLMapViewViewModel!
-    private var locations: [CLLocationCoordinate2D] = []
     private var polyline: MKPolyline?
+    var locations: [CLLocationCoordinate2D] = []
     
     init(viewModel: SLMapViewViewModel) {
         self.viewModel = viewModel
@@ -33,7 +33,6 @@ final class SLMapViewController: UIViewController {
         setupMapView()
         configureResetLocationButton()
         configureStartStopButton()
-        
     }
     
     private func setupMapView() {
@@ -59,6 +58,18 @@ final class SLMapViewController: UIViewController {
         mapView.addAnnotation(annotation)
     }
     
+    func shareLocation(
+        latitude: Double,
+        longitude: Double
+    ) {
+        let locationURL = "https://maps.apple.com/?ll=\(latitude),\(longitude)"
+        let activityVC = UIActivityViewController(
+            activityItems: [locationURL],
+            applicationActivities: nil
+        )
+        present(activityVC, animated: true)
+    }
+    
     func updateTrail(with coordinate: CLLocationCoordinate2D) {
         locations.append(coordinate)
         
@@ -69,14 +80,24 @@ final class SLMapViewController: UIViewController {
         mapView.addOverlay(polyline!)
     }
     
+    private func updateButtonAppereance() {
+        DispatchQueue.main.async { [ weak self ] in
+            guard let self = self else { return }
+            let title = self.viewModel.isTracking ?
+            String(localized: "MapView.StopButton.Title") :
+            String(localized: "MapView.StartButton.Title")
+            self.startStopButton.setTitle(title, for: .normal)
+            self.startStopButton.backgroundColor = self.viewModel.isTracking ? .red : .systemGreen
+        }
+    }
+    
     @IBAction func resetLocationButtonTapped(_ sender: Any) {
-        locations.removeAll()
-        mapView.removeOverlays(mapView.overlays)
-        mapView.removeAnnotations(mapView.annotations)
         viewModel.resetTracking()
+        updateButtonAppereance()
     }
     
     @IBAction func startStopButtonTapped(_ sender: Any) {
-        viewModel.startTracking()
+        viewModel.toggleTracking()
+        updateButtonAppereance()
     }
 }

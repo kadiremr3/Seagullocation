@@ -15,6 +15,7 @@ protocol LocationManagerDelegate: AnyObject {
 final class LocationManager: NSObject, CLLocationManagerDelegate {
     
     private let locationManager = CLLocationManager()
+    private var isTracking = false
     weak var delegate: LocationManagerDelegate?
     var lastRecordedLocation: CLLocation?
     
@@ -31,6 +32,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
         if status == .notDetermined {
             locationManager.requestWhenInUseAuthorization()
         } else if status == .authorizedWhenInUse || status == .authorizedAlways {
+            isTracking = true
             locationManager.startUpdatingLocation()
         } else {
             print("Location access denied.")
@@ -39,6 +41,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func stopTracking() {
         locationManager.stopUpdatingLocation()
+        isTracking = false
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -51,7 +54,9 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        delegate?.didUpdateLocation(locations)
+        if isTracking {
+            delegate?.didUpdateLocation(locations)
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

@@ -12,7 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SLMapViewController" customModule="Seagullocation" customModuleProvider="target">
             <connections>
                 <outlet property="mapView" destination="TYy-zf-vK8" id="CVd-Ez-mRf"/>
-                <outlet property="resetLocationButton" destination="C6r-bg-zyS" id="U3E-7P-9DG"/>
+                <outlet property="resetLocationButton" destination="C6r-bg-zyS" id="GAl-9M-GaX"/>
                 <outlet property="startStopButton" destination="Liu-pN-Jwo" id="aAO-wm-2uV"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -40,29 +40,31 @@
                         <action selector="startStopButtonTapped:" destination="-1" eventType="touchUpInside" id="H8Z-sJ-WoD"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C6r-bg-zyS">
-                    <rect key="frame" x="286" y="64" width="75" height="44"/>
+                <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C6r-bg-zyS">
+                    <rect key="frame" x="318.66666666666669" y="72" width="50.333333333333314" height="36"/>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="44" id="WJm-PC-YPY"/>
+                        <constraint firstAttribute="height" constant="36" id="WJm-PC-YPY"/>
                     </constraints>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" title="Button">
-                        <color key="baseForegroundColor" systemColor="viewFlipsideBackgroundColor"/>
+                        <fontDescription key="titleFontDescription" type="system" pointSize="8"/>
+                        <color key="baseForegroundColor" systemColor="systemRedColor"/>
                     </buttonConfiguration>
                     <connections>
-                        <action selector="resetLocationButtonTapped:" destination="-1" eventType="touchUpInside" id="HE9-KE-Tvv"/>
+                        <action selector="resetLocationButtonTapped:" destination="-1" eventType="touchUpInside" id="8F7-CB-PgO"/>
                     </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="C6r-bg-zyS" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="7bW-Db-bjs"/>
+                <constraint firstItem="C6r-bg-zyS" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="72" id="7bW-Db-bjs"/>
                 <constraint firstItem="TYy-zf-vK8" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="BSi-gj-sD2"/>
                 <constraint firstItem="TYy-zf-vK8" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Hc1-RF-6Ea"/>
                 <constraint firstAttribute="trailing" secondItem="TYy-zf-vK8" secondAttribute="trailing" id="Hor-xj-Rf6"/>
                 <constraint firstItem="Liu-pN-Jwo" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="RYC-gu-HRI"/>
                 <constraint firstAttribute="bottom" secondItem="Liu-pN-Jwo" secondAttribute="bottom" constant="90" id="X0o-j6-IN6"/>
-                <constraint firstAttribute="trailing" secondItem="C6r-bg-zyS" secondAttribute="trailing" constant="32" id="hUr-fz-YXO"/>
+                <constraint firstAttribute="trailing" secondItem="C6r-bg-zyS" secondAttribute="trailing" constant="24" id="hUr-fz-YXO"/>
                 <constraint firstItem="Liu-pN-Jwo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="90" id="iRW-Tk-HAB"/>
                 <constraint firstAttribute="trailing" secondItem="Liu-pN-Jwo" secondAttribute="trailing" constant="90" id="r8f-fW-PgX"/>
                 <constraint firstAttribute="bottom" secondItem="TYy-zf-vK8" secondAttribute="bottom" id="vyu-MI-McX"/>
@@ -77,8 +79,8 @@
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
-        <systemColor name="viewFlipsideBackgroundColor">
-            <color red="0.12156862745098039" green="0.12941176470588237" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
