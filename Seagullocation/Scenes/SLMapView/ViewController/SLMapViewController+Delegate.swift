@@ -12,29 +12,20 @@ import CoreLocation
 // MARK: - ViewModelDelegate
 
 extension SLMapViewController: SLMapViewViewModelDelegate {
-    
-}
-
-// MARK: - LocationManagerDelegate {
-
-extension SLMapViewController: LocationManagerDelegate {
-    func didUpdateLocation(_ locations: [CLLocation]) {
-        guard let newLocation = locations.last,
-              let lastLocation = locationManager.lastRecordedLocation
-        else { return }
-        
-        let distance = newLocation.distance(from: lastLocation)
-        if distance < 1 { return }
-        locationManager.lastRecordedLocation = newLocation
-        
+    func didUpdateMap(with coordinate: CLLocationCoordinate2D) {
         DispatchQueue.main.async {
-            self.addMarker(at: newLocation.coordinate)
-            self.updateTrail(with: newLocation.coordinate)
+            self.addMarker(at: coordinate)
+            self.updateTrail(with: coordinate)
         }
     }
     
     func didFailWithError(_ error: Error) {
-        print("Location error: \(error.localizedDescription)") // TODO: Make Alert
+        print("Location error: \(error.localizedDescription)") // TODO: Show alert
+    }
+    
+    func didUpdateTrackingState(isTracking: Bool) {
+        let title = isTracking ? String(localized: "MapView.StopButton.Title") : String(localized: "MapView.StartButton.Title")
+        startStopButton.setTitle(title, for: .normal)
     }
 }
 

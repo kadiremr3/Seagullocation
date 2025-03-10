@@ -25,10 +25,9 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.pausesLocationUpdatesAutomatically = false
     }
-
+    
     func startTracking() {
         let status = locationManager.authorizationStatus
-    
         if status == .notDetermined {
             locationManager.requestWhenInUseAuthorization()
         } else if status == .authorizedWhenInUse || status == .authorizedAlways {
@@ -36,6 +35,10 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
         } else {
             print("Location access denied.")
         }
+    }
+    
+    func stopTracking() {
+        locationManager.stopUpdatingLocation()
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -46,11 +49,11 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
             print("Permission denied. Show an alert to guide the user.") // TODO: Make alert
         }
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         delegate?.didUpdateLocation(locations)
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         delegate?.didFailWithError(error)
     }

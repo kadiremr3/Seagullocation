@@ -1,23 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "MapView.FinishButton.Title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stop"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Durdur"
-          }
-        }
-      }
-    },
     "MapView.ResetButton.Title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -48,6 +31,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Başlat"
+          }
+        }
+      }
+    },
+    "MapView.StopButton.Title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durdur"
           }
         }
       }

@@ -9,17 +9,17 @@ import UIKit
 import MapKit
 
 final class SLMapViewController: UIViewController {
-
+    
     @IBOutlet private(set) weak var mapView: MKMapView!
     @IBOutlet private weak var resetLocationButton: UIButton!
-    @IBOutlet private weak var startStopButton: UIButton!
-    private(set) var locationManager: LocationManager!
+    @IBOutlet private(set) weak var startStopButton: UIButton!
     
+    private(set) var viewModel: SLMapViewViewModel!
     private var locations: [CLLocationCoordinate2D] = []
     private var polyline: MKPolyline?
     
-    init(locationManager: LocationManager) {
-        self.locationManager = locationManager
+    init(viewModel: SLMapViewViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -29,29 +29,26 @@ final class SLMapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setuplocationManager()
+        viewModel.delegate = self
         setupMapView()
         configureResetLocationButton()
         configureStartStopButton()
         
     }
     
-    private func setuplocationManager() {
-        locationManager.delegate = self
-    }
-    
     private func setupMapView() {
+        mapView.delegate = self
         mapView.showsUserLocation = true
         mapView.userTrackingMode = .follow
     }
     
     private func configureResetLocationButton() {
-        resetLocationButton.titleLabel?.text = String(localized: "MapView.ResetButton.Title")
+        resetLocationButton.setTitle(String(localized: "MapView.ResetButton.Title"), for: .normal)
         resetLocationButton.layer.cornerRadius = 8
     }
     
     private func configureStartStopButton() {
-        startStopButton.titleLabel?.text = String(localized: "MapView.StartButton.Title")
+        startStopButton.setTitle(String(localized: "MapView.StartButton.Title"), for: .normal)
         startStopButton.layer.cornerRadius = 8
         startStopButton.addShadow(shadowProperties: ButtonShadowProperties())
     }
@@ -61,14 +58,13 @@ final class SLMapViewController: UIViewController {
         annotation.coordinate = coordinate
         mapView.addAnnotation(annotation)
     }
-
+    
     func updateTrail(with coordinate: CLLocationCoordinate2D) {
         locations.append(coordinate)
         
         if let polyline = polyline {
             mapView.removeOverlay(polyline)
         }
-        
         polyline = MKPolyline(coordinates: locations, count: locations.count)
         mapView.addOverlay(polyline!)
     }
@@ -77,9 +73,10 @@ final class SLMapViewController: UIViewController {
         locations.removeAll()
         mapView.removeOverlays(mapView.overlays)
         mapView.removeAnnotations(mapView.annotations)
+        viewModel.resetTracking()
     }
     
     @IBAction func startStopButtonTapped(_ sender: Any) {
-        locationManager.startTracking()
+        viewModel.startTracking()
     }
 }
